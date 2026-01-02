@@ -1,0 +1,124 @@
+# =========================================
+# General
+# =========================================
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+yarn.lock
+.env
+.env.*
+!.env.example
+
+# Ignore node_modules everywhere
+node_modules/
+**/node_modules/
+
+# Build output
+dist/
+build/
+tmp/
+temp/
+.cache/
+coverage/
+.vscode/
+.idea/
+*.iml
+
+# =========================================
+# React (Frontend)
+# =========================================
+# React build output
+frontend/build/
+frontend/node_modules/
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# Misc
+frontend/.eslintcache
+frontend/.parcel-cache
+frontend/.next/
+frontend/out/
+frontend/.turbo/
+
+# =========================================
+# Node.js / Express (Backend)
+# =========================================
+backend/node_modules/
+backend/logs/
+backend/pids/
+backend/tmp/
+backend/.env
+backend/.env.local
+backend/.env.development.local
+backend/.env.test.local
+backend/.env.production.local
+
+# Compiled source #
+backend/dist/
+backend/build/
+backend/coverage/
+
+# PM2 logs & configs
+pm2-logs/
+*.pid
+*.seed
+*.pid.lock
+
+# =========================================
+# Docker
+# =========================================
+# Ignore Docker volumes & build caches
+docker-compose.override.yml
+docker-compose.dev.yml
+.docker/
+.dockerignore
+Dockerfile*
+!Dockerfile        # Allow main Dockerfile
+docker-data/
+docker-cache/
+**/docker-data/
+**/docker-cache/
+
+
+
+# VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# JetBrains
+.idea/
+*.iml
+out/
+
+# =========================================
+# Miscellaneous
+# =========================================
+# Testing
+jest-test-results.json
+coverage/
+.nyc_output/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Lock files (optional if using workspace managers)
+
+
+
+# =========================================
+# End of .gitignore
+# =========================================

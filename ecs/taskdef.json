@@ -1,0 +1,25 @@
+{
+  "family": "cloud-mern-app",
+  "networkMode": "awsvpc",
+  "containerDefinitions": [
+    {
+      "name": "backend",
+      "image": "<ECR_BACKEND_IMAGE_URI>",
+      "essential": true,
+      "portMappings": [{ "containerPort": 5000 }],
+      "environment": [
+        { "name": "REDIS_HOST", "value": "redis" },
+        { "name": "REDIS_PORT", "value": "6379" }
+      ]
+    },
+    {
+      "name": "frontend",
+      "image": "<ECR_FRONTEND_IMAGE_URI>",
+      "essential": true,
+      "portMappings": [{ "containerPort": 80 }]
+    }
+  ],
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024"
+}
