@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  node-app:
+    image: public.ecr.aws/j5h6w1g9/node-app:latest
+    container_name: node-app
+    ports:
+      - "8000:8000"
+    restart: always

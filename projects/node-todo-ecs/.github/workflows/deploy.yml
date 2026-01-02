@@ -1,0 +1,128 @@
+# name: Deploy Node App to ECS Fargate
+
+# on:
+#   push:
+#     branches: ["main"]
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       # 1️⃣ Checkout repo
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+
+#       # 2️⃣ Configure AWS credentials
+#       - name: Configure AWS Credentials
+#         uses: aws-actions/configure-aws-credentials@v4
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: us-east-1
+
+#       # 3️⃣ Login to ECR Public
+#       - name: Login to ECR Public
+#         run: |
+#           aws ecr-public get-login-password --region us-east-1 \
+#           | docker login --username AWS --password-stdin ${{ secrets.ECR_PUBLIC_REGISTRY }}
+
+#       # 4️⃣ Build with LATEST tag
+#       - name: Build Docker Image (LATEST TAG)
+#         run: |
+#           docker build -t ${{ secrets.ECR_PUBLIC_REGISTRY }}/node-app:latest .
+
+#       # 5️⃣ Push latest
+#       - name: Push Docker Image
+#         run: |
+#           docker push ${{ secrets.ECR_PUBLIC_REGISTRY }}/node-app:latest
+
+#       # 6️⃣ Register ECS Task Definition (LATEST)
+#       - name: Register ECS Task Definition
+#         id: task-def
+#         run: |
+#           TASK_DEF_ARN=$(aws ecs register-task-definition \
+#             --family node-todo-app \
+#             --execution-role-arn arn:aws:iam::628087992272:role/ecsTaskExecutionRole \
+#             --network-mode awsvpc \
+#             --requires-compatibilities FARGATE \
+#             --cpu "1024" --memory "3072" \
+#             --container-definitions "[{\"name\":\"node-container\",\"image\":\"${{ secrets.ECR_PUBLIC_REGISTRY }}/node-app:latest\",\"portMappings\":[{\"containerPort\":8000,\"protocol\":\"tcp\"}]}]" \
+#             --query "taskDefinition.taskDefinitionArn" --output text)
+
+#           echo "TASK_DEF_ARN=$TASK_DEF_ARN" >> $GITHUB_ENV
+
+#       # 7️⃣ Update ECS Service
+#       - name: Update ECS Service
+#         run: |
+#           aws ecs update-service \
+#             --cluster node-app-cluster \
+#             --service node-todo-app-service \
+#             --task-definition ${{ env.TASK_DEF_ARN }} \
+#             --force-new-deployment
+
+name: Deploy Node App to ECS Fargate
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 1️⃣ Checkout repo (includes task-definition.json)
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2️⃣ AWS credentials
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      # 3️⃣ ECR Public login
+      - name: Login to ECR Public
+        run: |
+          aws ecr-public get-login-password --region us-east-1 \
+          | docker login --username AWS --password-stdin ${{ secrets.ECR_PUBLIC_REGISTRY }}
+
+      # 4️⃣ Docker meta → unique SHA tag
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ secrets.ECR_PUBLIC_REGISTRY }}/node-app
+          tags: |
+            type=sha,prefix=main-
+
+      # 5️⃣ Build & push (NO cache)
+      - name: Build & push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          no-cache: true
+
+      # 6️⃣ Render task-definition.json with new tag
+      - name: Render Amazon ECS task definition
+        id: render
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: node-container
+          image: ${{ steps.meta.outputs.tags }}
+
+      # 7️⃣ Deploy (forces new task)
+      - name: Deploy to Amazon ECS service
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.render.outputs.task-definition }}
+          service: node-todo-app-service
+          cluster: node-app-cluster
+          wait-for-service-stability: true
+          wait-minutes: 10
+          force-new-deployment: true
