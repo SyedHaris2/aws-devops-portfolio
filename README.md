@@ -25,6 +25,3 @@ Production-grade AWS infrastructure projects in one monorepo – built from real
 - Security Best Practices & Cost Optimization
 - Monitoring & Logging (CloudWatch)
 
-Open to DevOps, Cloud Engineer, and Full-Stack roles worldwide 🌍
-
-Contact: linkedin.com/in/syed-haris09
