@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-service
+  namespace: microservices
+  labels:
+    app: product-service
+    component: backend
+    service: catalog
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: product-service
+  template:
+    metadata:
+      labels:
+        app: product-service
+        component: backend
+        service: catalog
+    spec:
+      containers:
+      - name: product-service
+        image: 628087992272.dkr.ecr.us-east-1.amazonaws.com/product-service:latest
+        ports:
+        - containerPort: 3002
+          name: http
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: PORT
+          value: "3002"
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: mongodb-uri-product
+        - name: CORS_ORIGIN
+          value: "*"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3002
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3002
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 3002
+          initialDelaySeconds: 15
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 30
+        volumeMounts:
+        - name: uploads-storage
+          mountPath: /app/uploads
+      volumes:
+      - name: uploads-storage
+        emptyDir: {}  # Use persistent volume for production
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-service
+  namespace: microservices
+  labels:
+    app: product-service
+    component: backend
+spec:
+  selector:
+    app: product-service
+  ports:
+  - port: 3002
+    targetPort: 3002
+    name: http
+  type: ClusterIP

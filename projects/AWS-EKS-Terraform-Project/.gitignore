@@ -1,0 +1,112 @@
+# Terraform
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+terraform.tfvars
+*.tfstate
+*.tfstate.backup
+tfplan
+.terraform.lock.hcl
+
+# AWS
+.aws/
+credentials
+config
+
+# Kubernetes
+kubeconfig
+.kube/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs
+*.log
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Microservice uploads
+node-js-microservices/*/uploads/
+node-js-microservices/*/temp/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Docker
+.dockerignore
+
+# Screenshots (uncomment if you want to commit them)
+# screenshots/
+
+# Build artifacts
+dist/
+build/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Secrets and keys
+secrets/
+keys/
+*.key
+*.pem
+*.crt
+*.cer
+*.p12
+*.pfx
+
+# Backup files
+*.bak
+*.backup
+*.old

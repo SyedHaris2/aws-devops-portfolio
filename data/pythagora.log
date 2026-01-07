@@ -1,0 +1,36 @@
+2026-01-06T12:23:06.490Z INFO Is remote: false
+2026-01-06T12:23:06.494Z INFO Starting Local. Installation path: undefined
+2026-01-06T12:23:06.499Z INFO [MainProvider] Creating new MainProvider instance...
+2026-01-06T12:23:06.504Z INFO [TabsManager] Code view listener set up at initialization
+2026-01-06T12:23:06.507Z INFO Installation path exists: /home/haris/CLoud-Projects/aws-devops-portfolio/projects
+2026-01-06T12:23:06.510Z INFO Initializing database with URL: file:/tmp/pythagora-temp/pythagora.db
+2026-01-06T12:23:06.531Z INFO Database file exists, skipping prisma generate/push for faster startup
+2026-01-06T12:23:06.533Z INFO Database initialized successfully
+2026-01-06T12:23:06.535Z INFO [Migration] Checking for database migration...
+2026-01-06T12:23:08.464Z INFO [Migration] No migration needed
+2026-01-06T12:23:57.893Z INFO Closing entire Pythagora extension...
+2026-01-06T12:23:57.916Z ERROR Error closing extension
+Error: Canceled
+Stack: Canceled: Canceled
+	at new eU (file:///usr/share/code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:29:120021)
+	at GS.U (file:///usr/share/code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:29:124631)
+	at s.<computed>.n.charCodeAt.s.<computed> (file:///usr/share/code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:29:122125)
+	at Gy.g (file:///usr/share/code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:114:41133)
+	at Gy.executeCommand (file:///usr/share/code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:114:40637)
+	at Object.executeCommand (file:///usr/share/code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:210:100745)
+	at closeEntirePythagoraExtension (/home/haris/.vscode/extensions/pythagoratechnologies.pythagora-vs-code-2.6.19/out/extension.js:542:31)
+	at Object.deactivate (/home/haris/.vscode/extensions/pythagoratechnologies.pythagora-vs-code-2.6.19/out/extension.js:409:15)
+	at xX.eb (file:///usr/share/code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:118:11850)
+	at file:///usr/share/code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:118:10000
+	at Array.map (<anonymous>)
+	at xX.$ (file:///usr/share/code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:118:9988)
+	at xX.terminate (file:///usr/share/code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:118:10231)
+	at rN.terminate (file:///usr/share/code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:120:914)
+	at Fs (file:///usr/share/code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:402:10411)
+	at MessagePortMain.<anonymous> (file:///usr/share/code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:402:6949)
+	at MessagePortMain.emit (node:events:519:28)
+	at MessagePortMain._internalPort.emit (node:electron/js2c/utility_init:2:2949)
+	at Object.callbackTrampoline (node:internal/async_hooks:130:17)
+Extra context: {
+  "message": "Canceled"
+}
